@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help Me Choose</title>
+  <style>
+    /* CSS styles directly in the <style> tag */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem;
+      background: #007acc;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Help Me Choose</h1>
+    <p>Select your preferences, and we'll recommend the best options for you.</p>
+  </header>
+  <main>
+    <h2>What’s your budget?</h2>
+    <button id="budgetLow">Under $20k</button>
+    <button id="budgetMid">$20k-$40k</button>
+    <button id="budgetHigh">Over $40k</button>
+    <p id="result">Your budget: None selected</p>
+  </main>
+  <script>
+    // JavaScript directly in the <script> tag
+    document.querySelector("#budgetLow").addEventListener("click", () => {
+      document.querySelector("#result").textContent = "Your budget: Under $20k";
+    });
+    document.querySelector("#budgetMid").addEventListener("click", () => {
+      document.querySelector("#result").textContent = "Your budget: $20k-$40k";
+    });
+    document.querySelector("#budgetHigh").addEventListener("click", () => {
+      document.querySelector("#result").textContent = "Your budget: Over $40k";
+    });
+  </script>
+</body>
+</html>
