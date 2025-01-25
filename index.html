@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Help Me Choose</title>
   <style>
-    /* CSS styles directly in the <style> tag */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -19,6 +18,49 @@
       background: #007acc;
       color: white;
     }
+
+    h2 {
+      text-align: center;
+      padding: 2rem;
+      background: #007acc;
+      color: white;
+    }
+
+     /* Flexbox Layout for Centering */
+     .question-container {
+      display: flex;
+      justify-content: center;  /* Center horizontally */
+      align-items: center;      /* Center vertically */
+      flex-direction: column;   /* Stack buttons vertically */
+      padding: 1rem;
+      margin: 1rem auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 400px;  /* Limit width */
+    }
+
+    .question-container button {
+      margin: 0.5rem; /* Adds space between buttons */
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .question-container button:hover {
+      background-color: #005f99;
+    }
+
+    /* Styling for Results */
+    p {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #333;
+    }
   </style>
 </head>
 <body>
@@ -27,22 +69,141 @@
     <p>Select your preferences, and we'll recommend the best options for you.</p>
   </header>
   <main>
-    <h2>What’s your budget?</h2>
-    <button id="budgetLow">Under $20k</button>
-    <button id="budgetMid">$20k-$40k</button>
-    <button id="budgetHigh">Over $40k</button>
-    <p id="result">Your budget: None selected</p>
+    <!-- Budget Question -->
+    <div class="question-container">
+      <h2>What’s your budget?</h2>
+      <button id="budgetLow">Under $20k</button>
+      <button id="budgetMid">$20k-$40k</button>
+      <button id="budgetHigh">Over $40k</button>
+      <p id="result1" class="result">Your budget: None selected</p>
+    </div>
+
+    <!-- Vehicle Type Question -->
+    <div class="question-container">
+      <h2>What vehicle type?</h2>
+      <button id="sedan">Sedan</button>
+      <button id="suv">SUV</button>
+      <button id="truck">Truck</button>
+      <button id="coupe">Coupe</button>
+      <button id="convertible">Convertible</button>
+      <button id="hatchback">Hatchback</button>
+      <button id="minivan">Minivan</button>
+      <p id="result2" class="result">Your vehicle type: None selected</p>
+    </div>
+
+    <!-- Fuel Efficiency Question -->
+    <div class="question-container">
+      <h2>What fuel efficiency are you looking for?</h2>
+      <button id="fuelEfficiencyLow">Less than 20 MPG</button>
+      <button id="fuelEfficiencyMid">20-30 MPG</button>
+      <button id="fuelEfficiencyHigh">Over 30 MPG</button>
+      <button id="electric">Electric Only</button>
+      <button id="hybrid">Hybrid</button>
+      <p id="result3" class="result">Your fuel efficiency: None selected</p>
+    </div>
+
+    <!-- Performance Features Question -->
+    <div class="question-container">
+      <h2>What performance features are important to you?</h2>
+      <button id="performanceLow">Under 200 HP</button>
+      <button id="performanceMid">200-300 HP</button>
+      <button id="performanceHigh">Over 300 HP</button>
+      <button id="towing">Towing Capacity</button>
+      <button id="acceleration">Fast Acceleration</button>
+      <p id="result4" class="result">Your performance features: None selected</p>
+    </div>
+
+    <!-- Safety Features Question -->
+    <div class="question-container">
+      <h2>What safety features do you need?</h2>
+      <button id="safetyBasic">Basic Safety Features</button>
+      <button id="safetyAdvanced">Advanced Driver Assistance</button>
+      <button id="safetyPremium">Premium Safety Features (e.g., automatic braking)</button>
+      <button id="airbags">Multiple Airbags</button>
+      <button id="blindSpot">Blind Spot Monitoring</button>
+      <p id="result5" class="result">Your safety features: None selected</p>
+    </div>
   </main>
+
   <script>
-    // JavaScript directly in the <script> tag
-    document.querySelector("#budgetLow").addEventListener("click", () => {
-      document.querySelector("#result").textContent = "Your budget: Under $20k";
+    // Helper function to update results
+    function updateResult(resultId, message) {
+      document.querySelector(resultId).textContent = message;
+    }
+
+    // Budget section
+    const budgetButtons = {
+      "budgetLow": "Your budget: Under $20k",
+      "budgetMid": "Your budget: $20k-$40k",
+      "budgetHigh": "Your budget: Over $40k"
+    };
+
+    Object.keys(budgetButtons).forEach(buttonId => {
+      document.querySelector(`#${buttonId}`).addEventListener("click", () => {
+        updateResult("#result1", budgetButtons[buttonId]);
+      });
     });
-    document.querySelector("#budgetMid").addEventListener("click", () => {
-      document.querySelector("#result").textContent = "Your budget: $20k-$40k";
+
+    // Vehicle Type section
+    const vehicleButtons = {
+      "sedan": "Your vehicle type: Sedan",
+      "suv": "Your vehicle type: SUV",
+      "truck": "Your vehicle type: Truck",
+      "coupe": "Your vehicle type: Coupe",
+      "convertible": "Your vehicle type: Convertible",
+      "hatchback": "Your vehicle type: Hatchback",
+      "minivan": "Your vehicle type: Minivan"
+    };
+
+    Object.keys(vehicleButtons).forEach(buttonId => {
+      document.querySelector(`#${buttonId}`).addEventListener("click", () => {
+        updateResult("#result2", vehicleButtons[buttonId]);
+      });
     });
-    document.querySelector("#budgetHigh").addEventListener("click", () => {
-      document.querySelector("#result").textContent = "Your budget: Over $40k";
+
+    // Fuel Efficiency section
+    const fuelEfficiencyButtons = {
+      "fuelEfficiencyLow": "Your fuel efficiency: Less than 20 MPG",
+      "fuelEfficiencyMid": "Your fuel efficiency: 20-30 MPG",
+      "fuelEfficiencyHigh": "Your fuel efficiency: Over 30 MPG",
+      "electric": "Your fuel efficiency: Electric Only",
+      "hybrid": "Your fuel efficiency: Hybrid"
+    };
+
+    Object.keys(fuelEfficiencyButtons).forEach(buttonId => {
+      document.querySelector(`#${buttonId}`).addEventListener("click", () => {
+        updateResult("#result3", fuelEfficiencyButtons[buttonId]);
+      });
+    });
+
+    // Performance Features section
+    const performanceButtons = {
+      "performanceLow": "Your performance features: Under 200 HP",
+      "performanceMid": "Your performance features: 200-300 HP",
+      "performanceHigh": "Your performance features: Over 300 HP",
+      "towing": "Your performance features: Towing Capacity",
+      "acceleration": "Your performance features: Fast Acceleration"
+    };
+
+    Object.keys(performanceButtons).forEach(buttonId => {
+      document.querySelector(`#${buttonId}`).addEventListener("click", () => {
+        updateResult("#result4", performanceButtons[buttonId]);
+      });
+    });
+
+    // Safety Features section
+    const safetyButtons = {
+      "safetyBasic": "Your safety features: Basic Safety Features",
+      "safetyAdvanced": "Your safety features: Advanced Driver Assistance",
+      "safetyPremium": "Your safety features: Premium Safety Features",
+      "airbags": "Your safety features: Multiple Airbags",
+      "blindSpot": "Your safety features: Blind Spot Monitoring"
+    };
+
+    Object.keys(safetyButtons).forEach(buttonId => {
+      document.querySelector(`#${buttonId}`).addEventListener("click", () => {
+        updateResult("#result5", safetyButtons[buttonId]);
+      });
     });
   </script>
 </body>
