@@ -1,24 +1,22 @@
-import openai
+from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
+client = OpenAI(
+    api_key=os.environ.get("OPENAI_API_KEY"),  # This is the default and can be omitted
+)
 
-# Get OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
-# Test API call with the new OpenAI library format (version 1.0.0+)
 try:
-    # Use the new method `openai.completions.create`
-    response = openai.completions.create(
-        model="gpt-4",
-        prompt="Recommend a good Toyota truck for off-roading.",
-        max_tokens=100
+    chat_completion = client.chat.completions.create(
+        messages=[{
+            "role": "user",
+            "content": "Recommend a good Toyota truck for off-roading.",
+        }],
+        model="gpt-3.5-turbo",
     )
-
-    print("OpenAI API Connection Successful!")
-    print("AI Response:", response['choices'][0]['text'])
+    print("AI Response:", chat_completion.choices[0].message.content)
 
 except Exception as e:
     print("Error connecting to OpenAI API:", e)
