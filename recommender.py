@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, render_template
+import google.generativeai as genai
 from openai import OpenAI
 from pymongo import MongoClient
 import openai
@@ -10,13 +11,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Configure MongoDB client
-# client = MongoClient(os.getenv("MONGO_URI"))
-# db = client['car_recommendations']
-# cars_collection = db['cars']
-client = OpenAI(
-    api_key=os.environ.get("OPENAI_API_KEY"),  # This is the default and can be omitted
-)
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 @app.route('/')
 def index():
@@ -26,13 +21,8 @@ def index():
 @app.route('/get_recommendations', methods=['POST'])
 def get_recommendations():
     user_data = request.json
-    print("Received user data:", user_data)
-
-    # Fetch cars from MongoDB
-    # cars = list(cars_collection.find({}, {"_id": 0}))
 
     # Prepare prompt for AI
-    print(user_data)
     prompt = f"""
     Based on the following user preferences, recommend the 3 best Toyota vehicles:
     Preferences: {user_data}
@@ -43,16 +33,16 @@ def get_recommendations():
     NEVER EVER RECOMMEND A CAR ABOVE THE PRICE RANGE!
     """
 
-    # Call OpenAI API
-    chat_completion = client.chat.completions.create(
-        messages=[{
-            "role": "user",
-            "content": prompt,
-        }],
-        model="gpt-3.5-turbo",
-    )
-    print("AI Response:", chat_completion.choices[0].message.content)
-    return jsonify({"recommendations": chat_completion.choices[0].message.content})
+    try:
+        model = genai.GenerativeModel("gemini-pro")
+        response = model.generate_content(prompt)
+
+        recommendations = response.text if response else "No recommendations available."
+
+        return jsonify({"recommendations": recommendations})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == '__main__':
